@@ -1,0 +1,16 @@
+{
+  "name": "alveo-logging-app-server",
+  "version": "1.0.0",
+  "description": "Simple REST API to provide the log lines for the client",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Daniel Cherino",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "express": "^4.17.1"
+  }
+}
