@@ -10,6 +10,7 @@ function fillArrayWithFileData(file) {
     let rl = readline.createInterface({
       input: fs.createReadStream(file),
     });
+
     rl.on("line", (line) => {
       // First we split the line by the first ocurrence of comma to get the date
       const items = line.split(/,(.+)/);
@@ -37,14 +38,21 @@ function fillArrayWithFileData(file) {
   });
 }
 
-app.get("/api/logs", async (req, res) => {
+const endpoint = "/api/logs";
+
+// Enable CORS pre-flight requests.
+// app.options(endpoint, cors);
+
+
+app.get(endpoint, async (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
   const mockData = "MOCK_DATA.txt";
   fillArrayWithFileData(mockData)
-  .then(response => console.log(response))
-  .catch(error => console.log(error))
+    .then((response) => res.send(response))
+    .catch((error) => res.status(500).send(error));
 });
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
+  console.log(`Example app listening at http://localhost:${port}`);
+});
