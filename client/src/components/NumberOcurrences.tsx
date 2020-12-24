@@ -5,6 +5,7 @@ import InfoIcon from '@material-ui/icons/Info';
 import WarningIcon from '@material-ui/icons/Warning';
 import { useSelector } from 'react-redux';
 import { logsSelector } from '../app/slices';
+import { useEffect, useState } from 'react';
 
 const useStyles = makeStyles({
   root: {
@@ -40,32 +41,37 @@ const NumberOcurrences = () => {
   const warnings = logs.filter((log) => log.type === 'WARNING');
   const info = logs.filter((log) => log.type === 'INFO');
   const classes = useStyles();
+  const [hasRendered, setHasRendered] = useState(false);
+
+  useEffect(() => {
+    if (!hasErrors) {
+      setHasRendered(true);
+    }
+  }, [hasErrors]);
+
+  if (loading && !hasRendered) {
+    return <div className={classes.root}>Loading logs...</div>;
+  }
 
   return (
     <Grid container spacing={3} className={classes.root}>
-      {loading && <p>Loading...</p>}
-
-      {!loading && !hasErrors && (
-        <>
-          <Grid item xs={7}>
-            <strong>Number of ocurrences:</strong>
-          </Grid>
-          <Grid container spacing={3}>
-            <Grid item xs={4}>
-              <ErrorIcon className={classes.error} />
-              <span className={classes.span}>{errors.length}</span>
-            </Grid>
-            <Grid item xs={4}>
-              <WarningIcon className={classes.warning} />
-              <span className={classes.span}>{warnings.length}</span>
-            </Grid>
-            <Grid item xs={4}>
-              <InfoIcon className={classes.info} />
-              <span className={classes.span}>{info.length}</span>
-            </Grid>
-          </Grid>
-        </>
-      )}
+      <Grid item xs={7}>
+        <strong>Number of ocurrences:</strong>
+      </Grid>
+      <Grid container spacing={3}>
+        <Grid item xs={4}>
+          <ErrorIcon className={classes.error} />
+          <span className={classes.span}>{errors.length}</span>
+        </Grid>
+        <Grid item xs={4}>
+          <WarningIcon className={classes.warning} />
+          <span className={classes.span}>{warnings.length}</span>
+        </Grid>
+        <Grid item xs={4}>
+          <InfoIcon className={classes.info} />
+          <span className={classes.span}>{info.length}</span>
+        </Grid>
+      </Grid>
     </Grid>
   );
 };

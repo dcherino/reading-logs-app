@@ -2,11 +2,17 @@ import { useEffect, useState } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { shallowEqual, useSelector } from 'react-redux';
 import { logsSelector } from '../app/slices';
-import Grid from '@material-ui/core/Grid';
 
 const Chart = () => {
   const { logs, loading, hasErrors } = useSelector(logsSelector, shallowEqual);
   const [dataValues, setDataValues] = useState([0, 0, 0]);
+  const [hasRendered, setHasRendered] = useState(false);
+
+  useEffect(() => {
+    if (!hasErrors) {
+      setHasRendered(true);
+    }
+  }, [hasErrors]);
 
   const data = {
     labels: ['Error', 'Info', 'Warning'],
@@ -37,7 +43,9 @@ const Chart = () => {
     setDataValues([errors.length, info.length, warnings.length]);
   }, [logs]);
 
-  if (loading) return <p>Loading...</p>;
+  if (loading && !hasRendered) {
+    return <div>Loading logs...</div>;
+  }
 
   return <Pie data={data} />;
 };
