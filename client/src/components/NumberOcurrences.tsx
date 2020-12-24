@@ -30,12 +30,12 @@ const useStyles = makeStyles({
     fontSize: '58px',
   },
   span: {
-    fontSize: '48px'
-  }
+    fontSize: '48px',
+  },
 });
 
 const NumberOcurrences = () => {
-  const { logs } = useSelector(logsSelector);
+  const { logs, loading, hasErrors } = useSelector(logsSelector);
   const errors = logs.filter((log) => log.type === 'ERROR');
   const warnings = logs.filter((log) => log.type === 'WARNING');
   const info = logs.filter((log) => log.type === 'INFO');
@@ -43,23 +43,29 @@ const NumberOcurrences = () => {
 
   return (
     <Grid container spacing={3} className={classes.root}>
-      <Grid item xs={7}>
-        <strong>Number of ocurrences:</strong>
-      </Grid>
-      <Grid container spacing={3}>
-        <Grid item xs={4}>
-          <ErrorIcon className={classes.error} />
-          <span className={classes.span}>{errors.length}</span>
-        </Grid>
-        <Grid item xs={4}>
-          <WarningIcon className={classes.warning} />
-          <span className={classes.span}>{warnings.length}</span>
-        </Grid>
-        <Grid item xs={4}>
-          <InfoIcon className={classes.info} />
-          <span className={classes.span}>{info.length}</span>
-        </Grid>
-      </Grid>
+      {loading && <p>Loading...</p>}
+
+      {!loading && !hasErrors && (
+        <>
+          <Grid item xs={7}>
+            <strong>Number of ocurrences:</strong>
+          </Grid>
+          <Grid container spacing={3}>
+            <Grid item xs={4}>
+              <ErrorIcon className={classes.error} />
+              <span className={classes.span}>{errors.length}</span>
+            </Grid>
+            <Grid item xs={4}>
+              <WarningIcon className={classes.warning} />
+              <span className={classes.span}>{warnings.length}</span>
+            </Grid>
+            <Grid item xs={4}>
+              <InfoIcon className={classes.info} />
+              <span className={classes.span}>{info.length}</span>
+            </Grid>
+          </Grid>
+        </>
+      )}
     </Grid>
   );
 };

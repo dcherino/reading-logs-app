@@ -5,7 +5,7 @@ import { logsSelector } from '../app/slices';
 import Grid from '@material-ui/core/Grid';
 
 const Chart = () => {
-  const { logs } = useSelector(logsSelector, shallowEqual);
+  const { logs, loading, hasErrors } = useSelector(logsSelector, shallowEqual);
   const [dataValues, setDataValues] = useState([0, 0, 0]);
 
   const data = {
@@ -36,6 +36,8 @@ const Chart = () => {
 
     setDataValues([errors.length, info.length, warnings.length]);
   }, [logs]);
+
+  if (loading) return <p>Loading...</p>;
 
   return <Pie data={data} />;
 };

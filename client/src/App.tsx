@@ -8,15 +8,18 @@ import Chart from './components/Chart';
 import TotalLogs from './components/TotalLogs';
 import NumberOcurrences from './components/NumberOcurrences';
 import { makeStyles } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { logsSelector } from './app/slices';
 
 const useStyles = makeStyles({
   wrapper: {
-    padding: '24px 0'
-  }
-})
+    padding: '24px 0',
+  },
+});
 
 const App = () => {
   const classes = useStyles();
+  const { hasErrors } = useSelector(logsSelector);
 
   return (
     <div className="App">
@@ -32,21 +35,23 @@ const App = () => {
           spacing={3}
           style={{ maxWidth: '1800px', margin: '0 auto' }}
         >
-          <Grid container spacing={3} className={classes.wrapper}>
-            <Grid item xs={4}>
-              <Card>
-                <TotalLogs />
-              </Card>
+          {!hasErrors && (
+            <Grid container spacing={3} className={classes.wrapper}>
+              <Grid item xs={4}>
+                <Card>
+                  <TotalLogs />
+                </Card>
+              </Grid>
+              <Grid item xs={4}>
+                <Card>
+                  <NumberOcurrences />
+                </Card>
+              </Grid>
+              <Grid item xs={4}>
+                <Chart />
+              </Grid>
             </Grid>
-            <Grid item xs={4}>
-              <Card>
-                <NumberOcurrences />
-              </Card>
-            </Grid>
-            <Grid item xs={4}>
-              <Chart />
-            </Grid>
-          </Grid>
+          )}
           <Grid item xs={12}>
             <Table />
           </Grid>
@@ -59,6 +64,6 @@ const App = () => {
       </Grid>
     </div>
   );
-}
+};
 
 export default App;

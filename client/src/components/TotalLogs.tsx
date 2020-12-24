@@ -7,7 +7,7 @@ import { logsSelector } from '../app/slices';
 const useStyles = makeStyles({
   root: {
     padding: '24px',
-    minHeight: '270px'
+    minHeight: '270px',
   },
   number: {
     fontSize: '48px',
@@ -19,19 +19,27 @@ const useStyles = makeStyles({
 });
 
 const TotalLogs = () => {
-  const { logs } = useSelector(logsSelector);
+  const { logs, loading, hasErrors } = useSelector(logsSelector);
   const total = logs.length;
   const classes = useStyles();
 
   return (
     <Grid container spacing={3} className={classes.root}>
-      <Grid item xs={7}>
-        <strong>Total logs:</strong>
-        <p className={classes.number}>{total} <small>lines</small></p>
-      </Grid>
-      <Grid item xs={5}>
-        <AssessmentIcon className={classes.icon} />
-      </Grid>
+      {loading && <p>Loading...</p>}
+
+      {!loading && !hasErrors && (
+        <>
+          <Grid item xs={7}>
+            <strong>Total logs:</strong>
+            <p className={classes.number}>
+              {total} <small>lines</small>
+            </p>
+          </Grid>
+          <Grid item xs={5}>
+            <AssessmentIcon className={classes.icon} />
+          </Grid>
+        </>
+      )}
     </Grid>
   );
 };
