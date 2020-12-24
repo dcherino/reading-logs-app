@@ -37,17 +37,17 @@ const App = () => {
         >
           {!hasErrors && (
             <Grid container spacing={3} className={classes.wrapper}>
-              <Grid item xs={4}>
+              <Grid item xs={12} lg={4} xl={4}>
                 <Card>
                   <TotalLogs />
                 </Card>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={12} lg={5} xl={4}>
                 <Card>
                   <NumberOcurrences />
                 </Card>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={12} lg={3} xl={4}>
                 <Chart />
               </Grid>
             </Grid>
