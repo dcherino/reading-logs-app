@@ -16,12 +16,14 @@ interface List {
 interface LogsState {
   loading: boolean;
   hasErrors: boolean;
+  hasNewLines: boolean;
   logs: Array<Line> | [];
 }
 
 export const initialState: LogsState = {
   loading: false,
   hasErrors: false,
+  hasNewLines: false,
   logs: [],
 };
 
@@ -33,6 +35,7 @@ const logsSlice = createSlice({
       state.loading = true;
     },
     getLogsSuccess: (state: LogsState, { payload }: List) => {
+      state.hasNewLines = state.logs.length > 0 && state.logs.length !== payload.length;
       state.logs = payload;
       state.loading = false;
       state.hasErrors = false;
