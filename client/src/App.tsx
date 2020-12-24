@@ -3,6 +3,7 @@ import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { fetchLogs, logsSelector } from './app/slices';
 import TableDisplay from './components/TableDisplay';
+import Grid from '@material-ui/core/Grid';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -29,7 +30,7 @@ function App() {
 
     // Clear interval
     return () => clearInterval(interval);
-  }, [dispatch]);
+  }, [dispatch, hasErrors]);
 
   const renderLogs = () => {
     if (loading && !hasRender) return <p>Loading logs...</p>;
@@ -40,20 +41,27 @@ function App() {
 
   return (
     <div className="App">
-      <CssBaseline />
-      <AppBar position="static">
-        <Toolbar variant="dense">
-          <Typography variant="h5" color="inherit">
-            Alevo Logs
-          </Typography>
-        </Toolbar>
-      </AppBar>
-
-      <Card>
-        <Chart />
-      </Card>
-
-      {renderLogs()}
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <AppBar position="static">
+            <Toolbar variant="dense">
+              <Typography variant="h5" color="inherit">
+                Alevo Logs
+              </Typography>
+            </Toolbar>
+          </AppBar>
+        </Grid>
+        <Grid container spacing={3} style={{maxWidth: '1800px', margin: '0 auto'}}>
+          <Grid item xs={8}>
+            {renderLogs()}
+          </Grid>
+          <Grid item xs={2}>
+            <Card>
+              <Chart />
+            </Card>
+          </Grid>
+        </Grid>
+      </Grid>
     </div>
   );
 }
