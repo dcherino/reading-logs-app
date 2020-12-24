@@ -3,7 +3,8 @@ A SWA React/TypeScript which displays log lines from a backend API
 
 ![TypeScript badge](https://img.shields.io/badge/TypeScript-73.8%25-1081c1 "Typescript")
 ![Redux badge](https://img.shields.io/badge/Redux%20Toolkit-1.4.0-764abc "Redux")
-![Styled components badge](https://img.shields.io/badge/Material%20UI-4.11.2-e433ea "Material UI")
+![Material UI badge](https://img.shields.io/badge/Material%20UI-4.11.2-e433ea "Material UI")
+![ChartsJS badge](https://img.shields.io/badge/ChartsJS-2.11.1-e433ea "ChartsJS 2")
 ![Docker badge](https://img.shields.io/badge/Dockerfile-3.9%25-65abd3 "Docker")
 
 A product review app which displays a graph with the current tendencies. Additionally, it shows a list of reviews from other users and it allows the possibility to add new review through a form.
@@ -14,8 +15,13 @@ The technologies used to develop this project are:
 * TypeScript
 * Redux Toolkit
 * Material UI
+* ChartJS
 
 ![Home page screenshot](home.png "Home Page")
+
+## Comments
+
+Please, to [read](comments.md) my comments on this assigment.
 
 ## Prerequisites
 
