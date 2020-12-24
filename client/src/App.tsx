@@ -3,6 +3,7 @@ import Table from './components/Table';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import Header from './components/Header';
+import Hero from './components/Hero';
 import Chart from './components/Chart';
 import TotalLogs from './components/TotalLogs';
 import NumberOcurrences from './components/NumberOcurrences';
@@ -15,17 +16,8 @@ function App() {
         <Grid item xs={12} style={{ padding: 0 }}>
           <Header />
         </Grid>
-        <Grid
-          item
-          xs={12}
-          style={{
-            padding: 0,
-            backgroundImage:
-              'linear-gradient(to left bottom,#4502b3,#7209c4,#9915d4,#bf22e3,#e530f1)',
-            height: '300px',
-          }}
-        >
-          <h1>Logs Tracker</h1>
+        <Grid item xs={12}>
+          <Hero />
         </Grid>
         <Grid
           container
