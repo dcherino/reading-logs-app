@@ -8,18 +8,29 @@ import Chart from './components/Chart';
 import TotalLogs from './components/TotalLogs';
 import NumberOcurrences from './components/NumberOcurrences';
 import { makeStyles } from '@material-ui/core';
-import { useSelector } from 'react-redux';
-import { logsSelector } from './app/slices';
+import Button from '@material-ui/core/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchLogs, logsSelector } from './app/slices';
 
 const useStyles = makeStyles({
   wrapper: {
     padding: '24px 0',
   },
+  button: {
+    margin: '0 4px 0 0'
+  }
 });
 
 const App = () => {
   const classes = useStyles();
   const { hasErrors } = useSelector(logsSelector);
+  const dispatch = useDispatch();
+
+  const addLog = (type: string) => {
+    fetch(`http://localhost:5000/api/write/${type}`)
+    .then(res => dispatch(fetchLogs()))
+    .catch(error => error)
+  }
 
   return (
     <div className="App">
@@ -52,6 +63,11 @@ const App = () => {
               </Grid>
             </Grid>
           )}
+          <Grid item xs={12}>
+            <Button variant="contained" className={classes.button} onClick={() => addLog('error')}>Add Error</Button>
+            <Button variant="contained" className={classes.button} onClick={() => addLog('warning')}>Add Warning</Button>
+            <Button variant="contained" className={classes.button} onClick={() => addLog('info')}>Add Info</Button>
+          </Grid>
           <Grid item xs={12}>
             <Table />
           </Grid>

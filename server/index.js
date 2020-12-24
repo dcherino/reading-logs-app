@@ -39,9 +39,19 @@ function fillArrayWithFileData(file) {
   });
 }
 
-const endpoint = "/api/logs";
+function convertDate(date) {
+  const dd = String(date.getDate()).padStart(2, '0');
+  const mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
+  const yyyy = date.getFullYear();
+  const hh = (date.getHours() < 10 ? '0' : '') + date.getHours();
+  const min = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
 
-app.get(endpoint, async (req, res) => {
+  return `${yyyy}-${mm}-${dd}	${hh}:${min}`;
+}
+
+const logsEndpoint = "/api/logs";
+
+app.get(logsEndpoint, async (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   const mockData = "MOCK_DATA.txt";
 
@@ -50,14 +60,63 @@ app.get(endpoint, async (req, res) => {
     .catch((error) => res.status(500).send(error));
 });
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === "production") {
   // Serve any static files
-  app.use(express.static(path.join(__dirname, 'client/build')));
+  app.use(express.static(path.join(__dirname, "client/build")));
   // Handle React routing, return all requests to React app
-  app.get('*', function(req, res) {
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+  app.get("*", function (req, res) {
+    res.sendFile(path.join(__dirname, "client/build", "index.html"));
   });
 }
+
+const writeErrorEndpoint = "/api/write/error";
+
+app.get(writeErrorEndpoint, async (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  // 'a' flag stands for 'append'
+  const log = fs.createWriteStream("MOCK_DATA.txt", { flags: "a" });
+  const entry = `${new Date()},994	ERROR	Random error message\n`
+  // on new log entry ->
+  log.write(entry);
+
+  // you can skip closing the stream if you want it to be opened while
+  // a program runs, then file handle will be closed
+  log.end();
+  res.status(200).send('Log type ERROR has been added');
+});
+
+const writeWarningEndpoint = "/api/write/warning";
+
+app.get(writeWarningEndpoint, async (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  // 'a' flag stands for 'append'
+  const log = fs.createWriteStream("MOCK_DATA.txt", { flags: "a" });
+  const entry = `${new Date()},994	WARNING	Random warning message\n`
+  // on new log entry ->
+  log.write(entry);
+
+  // you can skip closing the stream if you want it to be opened while
+  // a program runs, then file handle will be closed
+  log.end();
+  res.status(200).send('Log type WARNING has been added');
+});
+
+const writeInfoEndpoint = "/api/write/info";
+
+app.get(writeInfoEndpoint, async (req, res) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  // 'a' flag stands for 'append'
+  const log = fs.createWriteStream("MOCK_DATA.txt", { flags: "a" });
+  const entry = `${convertDate(new Date())},994	INFO	Random info message\n`
+  console.log(entry)
+  // on new log entry ->
+  log.write(entry);
+
+  // you can skip closing the stream if you want it to be opened while
+  // a program runs, then file handle will be closed
+  log.end();
+  res.status(200).send('Log type INFO has been added');
+});
 
 
 const port = process.env.PORT || 5000;
