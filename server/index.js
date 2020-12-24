@@ -33,20 +33,18 @@ function fillArrayWithFileData(file) {
     });
 
     rl.on("close", () => {
-      return resolve(logs);
+      const sortedLogs = logs.sort((a, b) => b.date - a.date);
+      return resolve(sortedLogs);
     });
   });
 }
 
 const endpoint = "/api/logs";
 
-// Enable CORS pre-flight requests.
-// app.options(endpoint, cors);
-
-
 app.get(endpoint, async (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
   const mockData = "MOCK_DATA.txt";
+
   fillArrayWithFileData(mockData)
     .then((response) => res.send(response))
     .catch((error) => res.status(500).send(error));
