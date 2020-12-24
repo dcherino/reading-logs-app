@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { shallowEqual, useSelector } from 'react-redux';
 import { logsSelector } from '../app/slices';
+import Grid from '@material-ui/core/Grid';
 
 const Chart = () => {
   const { logs } = useSelector(logsSelector, shallowEqual);
@@ -36,20 +37,7 @@ const Chart = () => {
     setDataValues([errors.length, info.length, warnings.length]);
   }, [logs]);
 
-  return (
-    <div style={{width: '300px'}}>
-      <Pie
-        data={data}
-      />
-      <div>
-        <ul>
-          <li>Errors: {dataValues[0]}</li>
-          <li>Info: {dataValues[1]}</li>
-          <li>Warnings: {dataValues[2]}</li>
-        </ul>
-      </div>
-    </div>
-  );
+  return <Pie data={data} />;
 };
 
 export default Chart;
