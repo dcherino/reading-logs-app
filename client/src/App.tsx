@@ -7,9 +7,17 @@ import Hero from './components/Hero';
 import Chart from './components/Chart';
 import TotalLogs from './components/TotalLogs';
 import NumberOcurrences from './components/NumberOcurrences';
-// import './App.css';
+import { makeStyles } from '@material-ui/core';
 
-function App() {
+const useStyles = makeStyles({
+  wrapper: {
+    padding: '24px 0'
+  }
+})
+
+const App = () => {
+  const classes = useStyles();
+
   return (
     <div className="App">
       <Grid container spacing={3}>
@@ -24,21 +32,19 @@ function App() {
           spacing={3}
           style={{ maxWidth: '1800px', margin: '0 auto' }}
         >
-          <Grid container spacing={3}>
+          <Grid container spacing={3} className={classes.wrapper}>
             <Grid item xs={4}>
               <Card>
                 <TotalLogs />
               </Card>
             </Grid>
             <Grid item xs={4}>
-              <Card style={{ padding: '20px' }}>
+              <Card>
                 <NumberOcurrences />
               </Card>
             </Grid>
             <Grid item xs={4}>
-              <Card style={{ padding: '20px' }}>
-                <Chart />
-              </Card>
+              <Chart />
             </Grid>
           </Grid>
           <Grid item xs={12}>
