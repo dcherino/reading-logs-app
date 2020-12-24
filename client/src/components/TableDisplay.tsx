@@ -28,10 +28,28 @@ function convertDate(timestamp: number | Date): string {
   const mm = String(date.getMonth() + 1).padStart(2, '0'); //January is 0!
   const yyyy = date.getFullYear();
   const hh = (date.getHours() < 10 ? '0' : '') + date.getHours();
-  const min = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();;
+  const min = (date.getMinutes() < 10 ? '0' : '') + date.getMinutes();
 
   return `${dd}/${mm}/${yyyy} ${hh}:${min}`;
 }
+
+const styles: Record<'error' | 'info' | 'warning', React.CSSProperties> = {
+  error: {
+    position: 'relative',
+    top: '2px',
+    color: 'rgba(255, 99, 132, 1)',
+  },
+  info: {
+    position: 'relative',
+    top: '2px',
+    color: 'rgba(54, 162, 235, 1)',
+  },
+  warning: {
+    position: 'relative',
+    top: '2px',
+    color: 'rgba(255, 206, 86, 1)',
+  },
+};
 
 const columns: Column[] = [
   {
@@ -47,15 +65,15 @@ const columns: Column[] = [
     format: (value: string) => {
       switch (value) {
         case 'ERROR':
-          return (<><ErrorIcon /> {value}</>);
+          return <ErrorIcon style={{ ...styles.error }} />;
         case 'INFO':
-          return (<><InfoIcon /> {value}</>);
+          return <InfoIcon style={{ ...styles.info }} />;
         case 'WARNING':
-          return (<><WarningIcon /> {value}</>);
+          return <WarningIcon style={{ ...styles.warning }} />;
         default:
-          return (<><WarningIcon /> {value}</>)
+          return <InfoIcon style={{ ...styles.info }} />;
       }
-    }
+    },
   },
   {
     id: 'message',
@@ -71,7 +89,12 @@ interface Data {
   message: string;
 }
 
-function createData(date: string, code: string, type: string, message: string): Data {
+function createData(
+  date: string,
+  code: string,
+  type: string,
+  message: string
+): Data {
   return { date, code, type, message };
 }
 
@@ -89,7 +112,9 @@ export default function TableDisplay() {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const rows = (logs as Array<Line>).map((log: Line) => createData(convertDate(log.date), log.code, log.type, log.message));
+  const rows = (logs as Array<Line>).map((log: Line) =>
+    createData(convertDate(log.date), log.code, log.type, log.message)
+  );
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -122,22 +147,32 @@ export default function TableDisplay() {
           <TableBody>
             {rows
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((row: { [x: string]: any; date: any; message: any; }, index: any) => {
-                return (
-                  <TableRow hover role="checkbox" tabIndex={-1} key={row.date + row.message + index}>
-                    {columns.map((column) => {
-                      const value = row[column.id];
-                      return (
-                        <TableCell key={column.id} align={column.align}>
-                          {column.format && typeof value === 'string'
-                            ? column.format(value)
-                            : value}
-                        </TableCell>
-                      );
-                    })}
-                  </TableRow>
-                );
-              })}
+              .map(
+                (
+                  row: { [x: string]: any; date: any; message: any },
+                  index: any
+                ) => {
+                  return (
+                    <TableRow
+                      hover
+                      role="checkbox"
+                      tabIndex={-1}
+                      key={row.date + row.message + index}
+                    >
+                      {columns.map((column) => {
+                        const value = row[column.id];
+                        return (
+                          <TableCell key={column.id} align={column.align}>
+                            {column.format && typeof value === 'string'
+                              ? column.format(value)
+                              : value}
+                          </TableCell>
+                        );
+                      })}
+                    </TableRow>
+                  );
+                }
+              )}
           </TableBody>
         </Table>
       </TableContainer>
