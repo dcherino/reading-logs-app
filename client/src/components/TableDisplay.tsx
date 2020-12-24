@@ -57,11 +57,16 @@ const columns: Column[] = [
     label: 'Date',
     minWidth: 150,
   },
-  { id: 'code', label: 'Code', minWidth: 60 },
+  {
+    id: 'code',
+    label: 'Code',
+    minWidth: 60,
+    format: (value: string) => <em>{value}</em>,
+  },
   {
     id: 'type',
     label: 'Type',
-    minWidth: 150,
+    minWidth: 60,
     format: (value: string) => {
       switch (value) {
         case 'ERROR':
@@ -107,7 +112,7 @@ const useStyles = makeStyles({
   },
 });
 
-export default function TableDisplay() {
+const TableDisplay = () => {
   const { logs } = useSelector(logsSelector, shallowEqual);
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
@@ -139,7 +144,7 @@ export default function TableDisplay() {
                   align={column.align}
                   style={{ minWidth: column.minWidth }}
                 >
-                  {column.label}
+                  <strong>{column.label}</strong>
                 </TableCell>
               ))}
             </TableRow>
@@ -176,6 +181,7 @@ export default function TableDisplay() {
           </TableBody>
         </Table>
       </TableContainer>
+
       <TablePagination
         rowsPerPageOptions={[10, 25, 100]}
         component="div"
@@ -188,3 +194,5 @@ export default function TableDisplay() {
     </Paper>
   );
 }
+
+export default TableDisplay;
