@@ -3,7 +3,7 @@ A SWA React/TypeScript which displays log lines from a backend API
 
 ![TypeScript badge](https://img.shields.io/badge/TypeScript-73.8%25-1081c1 "Typescript")
 ![Redux badge](https://img.shields.io/badge/Redux%20Toolkit-1.4.0-764abc "Redux")
-![Styled components badge](https://img.shields.io/badge/Material-UI%204.11.2-e433ea "Material UI")
+![Styled components badge](https://img.shields.io/badge/Material%20UI-4.11.2-e433ea "Material UI")
 ![Docker badge](https://img.shields.io/badge/Dockerfile-3.9%25-65abd3 "Docker")
 
 A product review app which displays a graph with the current tendencies. Additionally, it shows a list of reviews from other users and it allows the possibility to add new review through a form.
