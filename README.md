@@ -21,7 +21,7 @@ The technologies used to develop this project are:
 
 ## Comments
 
-Please, to [read](comments.md) my comments on this assigment.
+Please, to [read](COMMENTS.md) my comments on this assigment.
 
 ## Prerequisites
 
