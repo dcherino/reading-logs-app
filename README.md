@@ -21,60 +21,43 @@ The technologies used to develop this project are:
 
 ## Comments
 
-Please, to [read](COMMENTS.md) my comments on this assigment.
+Please, [read](COMMENTS.md) my comments on this assigment.
 
 ## Prerequisites
 
 Before you continue, ensure you have met the following requirements:
 
 * You have installed the latest version of [Docker](https://www.docker.com/get-started).
+* You have a Docker account and your are logged in.
 * You have a basic understanding of the terminal and command lines.
 
 ## Running the app locally in DEV mode
 
-In order to run the application, this repository should be cloned on a local computer. Opening the computer terminal, the following command needs to be run from the app root folder:
+In order to run the application, this repository should be cloned on a local computer. Opening the computer terminal, the following command needs to be run from the app root folder.
 
-`docker build -t logs_tracker_client:dev .`
+For the first time running the app, please type the following:
 
-This command will build the development image. Please, keep in mind that this is only required once.
+`docker-compose up --build`
 
-Then, spin up the container once the build is done:
+**IMPORTANT**: This process can take a while. Specially the step "6/9 yarn install --silent". Please do not interrupt the process.
 
-`docker run --name logs_tracker_client -it --rm -v ${PWD}:/app -v /app/node_modules -p 3000:3000 -e CHOKIDAR_USEPOLLING=true logs_tracker_client:dev`
+This command will build the development images. Please, keep in mind that the `--build` flag is only required the first time.
 
 Navigate to http://localhost:3000/ in your browser to view the app.
 
-If you run into an <em>"ENOENT: no such file or directory, open '/app/package.json"</em> error, you may need to add an additional volume: `-v /app/package.json`.
-
 To stop the Docker container run:
 
-`docker stop logs_tracker_client`
+`docker-compose down`
+
+To run again the up type `docker-compose up` (without the `--build` flag).
 
 To run the [scripts](#scripts) within the container:
 
-`docker exec -it logs_tracker_client <command>`
-
-## Running the app in PRODUCTION mode
-
-To build the image in production mode:
-
-`docker build -f Dockerfile.prod -t logs_tracker_client:prod`
-
-Then, spin up the container:
-
-`docker run --name logs_tracker_client_prod -it --rm -p 1337:80 logs_tracker_client:prod`
-
-Navigate to http://localhost:1337/ in your browser to view the app.
-
-To stop the production container:
-
-`docker stop logs_tracker_client_prod`
-
+`docker exec -it alveo-logging-app_client <command>` for the client app.
+`docker exec -it alveo-logging-app_server <command>` for the server app.
 # Technical details
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-
 ## <a name="scripts"></a>Available Scripts
 
 In the project directory, you can run:
